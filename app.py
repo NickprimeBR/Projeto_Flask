@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-
+import sqlite3
 
 app = Flask(__name__)
 
@@ -17,20 +17,16 @@ def sobre_o_Sistema():
 
 @app.route('/aluno')
 def lista_aluno():
-    lista=[
-       (1,"Ana Beatriz Silva",20,"Teresina"),
-       (2,"Bruno Carvalho Santos",21,"Parnaíba"),
-        (3,"Carlos Eduardo Lima",19,"Picos"),
-        (4,"Daniela Ferreira Costa",22,"Floriano"),
-        (5,"Eduardo Henrique Alves",20,"Teresina"),
-        (6,"Fernanda Oliveira Sousa",21,"Piripiri"),
-        (7,"Gabriel Martins Rocha",23,"Campo Maior"),
-        (8,"Helena Vitória Mendes",19,"Teresina"),
-        (9,"Igor Rodrigues Silva",22,"Bom Jesus"),
-        (10,"Juliana Alves Pereira",20,"Oeiras")
-        ]
-    
-    return render_template('aluno/lista.html', lista=lista)
+
+        DB_PATH = "banco_escola.db"
+        con = sqlite3.connect(DB_PATH)
+        
+        cursor = con.cursor()
+        cursor.execute("SELECT id, nome, idade, cidade FROM aluno")
+        
+        lista = cursor.fetchall()
+        return render_template('aluno/lista.html', lista=lista)
+ 
 
 @app.route('/professor')
 def lista_professor():
