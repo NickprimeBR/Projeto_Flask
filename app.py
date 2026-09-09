@@ -30,7 +30,28 @@ def lista_aluno():
 
 @app.route('/professor')
 def lista_professor():
-    return render_template('professor/lista.html')
+    
+        DB_PATH = "banco_escola.db"
+        con = sqlite3.connect(DB_PATH)
+        
+        cursor = con.cursor()
+        cursor.execute("SELECT id,nome,disciplina from professor")
+        
+        lista = cursor.fetchall()
+        return render_template('professor/lista.html', lista=lista)
+    
+@app.route('/turma')
+def lista_turma():
+    
+        DB_PATH = "banco_escola.db"
+        con = sqlite3.connect(DB_PATH)
+        
+        cursor = con.cursor()
+        cursor.execute("select turma.id,turma.semestre,curso.nome_curso,professor.nome,professor.disciplina from turma join curso on curso.id=turma.curso_id join professor on professor.id=turma.professor_id")
+        
+        lista = cursor.fetchall()
+        return render_template('turma/lista.html', lista=lista)
+    
 
 
 @app.route('/ajuda')
