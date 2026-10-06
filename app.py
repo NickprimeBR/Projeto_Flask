@@ -59,6 +59,12 @@ def ajuda():
     return 'Ajuda Sobre o Sistema!'
 
 
+@app.route('/saudacao1/<nome>')
+def saudacao1(nome):
+      return render_template('saudacao/saudacao.html',valor_recebido=nome)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
