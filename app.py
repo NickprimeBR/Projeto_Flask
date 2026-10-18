@@ -57,6 +57,30 @@ def lista_professor():
                 
         lista = dao.listar()
         return render_template('professor/lista.html', lista=lista)
+
+
+@app.route('/professor/form') 
+def form_professor():
+    return render_template('professor/form.html', professor=None)
+
+
+@app.route('/professor/salvar/', methods=['POST'])
+def salvar_professor(id=None):
+
+    nome = request.form['nome']
+    disciplina = request.form['disciplina']
+    
+    dao = ProfessorDAO()
+    result = dao.salvar(id, nome, disciplina)
+    
+
+    if result["status"] == "ok":
+        flash("Professor salvo com sucesso!", "success")
+    else:
+        flash(result["mensagem"], "danger")
+        
+
+    return redirect('/professor')
     
 @app.route('/turma')
 def lista_turma():
@@ -65,6 +89,29 @@ def lista_turma():
                         
         lista = dao.listar()
         return render_template('turma/lista.html', lista=lista)
+
+@app.route('/turma/form')
+def form_turma():
+    cursos = CursoDAO().listar()
+    professores = ProfessorDAO().listar()
+    return render_template('turma/form.html', cursos=cursos, professores=professores, turma=None)
+
+
+@app.route('/turma/salvar/', methods=['POST'])
+def salvar_turma(id=None):
+    semestre = request.form['semestre']
+    curso_id = request.form['curso_id']
+    professor_id = request.form['professor_id']
+
+    dao = TurmaDAO()
+    result = dao.salvar(id, semestre, curso_id, professor_id)
+
+    if result["status"] == "ok":
+        flash("Turma salva com sucesso!", "success")
+    else:
+        flash(result["mensagem"], "danger")
+
+    return redirect('/turma')
     
 @app.route('/curso')
 def lista_curso():
@@ -73,6 +120,27 @@ def lista_curso():
                         
         lista = dao.listar()
         return render_template('curso/lista.html', lista=lista)
+
+
+@app.route('/curso/form')
+def form_curso():
+    return render_template('curso/form.html', curso=None)
+
+
+@app.route('/curso/salvar/', methods=['POST'])
+def salvar_curso(id=None):
+    nome_curso = request.form['nome_curso']
+    duracao = request.form['duracao']
+
+    dao = CursoDAO()
+    result = dao.salvar(id, nome_curso, duracao)
+
+    if result["status"] == "ok":
+        flash("Curso salvo com sucesso!", "success")
+    else:
+        flash(result["mensagem"], "danger")
+
+    return redirect('/curso')
     
 
 
