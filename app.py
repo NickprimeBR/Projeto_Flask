@@ -48,6 +48,24 @@ def salvar_aluno(id=None):
                 flash(result["mensagem"], "danger")
         return redirect('/aluno')
 
+
+@app.route('/aluno/editar/<int:id>')
+def editar_aluno(id):
+    dao = AlunoDAO()
+    aluno = dao.buscar_por_id(id)
+    return render_template('aluno/form.html', aluno=aluno)
+
+
+@app.route("/aluno/remover/<int:id>")
+def remover_aluno(id):
+    dao = AlunoDAO()
+    resultado = dao.remover(id)
+    if resultado["status"] == "ok":
+        flash("Registro removido com sucesso!", "success")
+    else:
+        flash(resultado["mensagem"], "danger")
+    return redirect('/aluno')
+
  
 
 @app.route('/professor')
@@ -192,11 +210,6 @@ def loginDesafio():
 def formdesafio():
       return render_template('desafio1/desafio.html')
         
-
-
-
-
-
 
       
 

@@ -36,7 +36,9 @@
 
             <td>
                 <a href="/aluno/editar/{{item[0]}}" class="btn btn-primary btn-sm">Editar</a>
-                <a href="/aluno/remover/{{item[0]}}" class="btn btn-danger btn-sm">Remover</a>
+                <a href="/aluno/remover/{{item[0]}}" class="btn btn-danger btn-sm"
+                onclick="return confirm('Tem certeza que deseja remover este registro?');">
+                Remover </a>      
             </td>
         </tr>
 
